@@ -8,13 +8,39 @@
 ## Objectives
 
 You will be able to:
-* Understand and describe parametric inference based in context of identifying optimal values for model parameters
-* Understand the concept of likelihood , and the difference between likelihood and a probability
+* Describe parametric inference based in context of identifying optimal values for model parameters
+* Explain the difference between likelihood and a probability
 * Describe MLE assumption of IID samples and its implications on model development
+    * Explain IID
+
+
+# Wrap up
+* How to find the likelihood of outcome (tails or heads) given samples
+* Learned parameters to describe a perfect distribution, ie Normal Distribution -> (mu, sd)
+* Log properties 
+* How central limit theorem is applied for MLE
+
+
+
+* Step 1: Get a sample
+* Step 2: Build an equation using probabilities and taking a log
+* Step 3: Calculating max theta value of equation
+    * Step 3a: Calculate the derivative
+    * Step 3b: Set it equal to 0
+    * Step 3c: Solve for theta
+
+
 
 ## Parameter Inference
 
 Parameter Inference is as the process of probabilistically inferring parameter(s) for a model of our choice, which best describe the underlying dataset, used in an analytical context. Let's try to understand this with a simple experiment with a 10 times coin flip and inspecting the outcome. 
+
+# Parameters we've worked with in the past
+* MSE or R^2
+* For example, linear regression
+    * slope and intercept
+    * beta_n
+        * beta_0 + (beta_n)x(features)
 
 
 ```python
@@ -43,18 +69,18 @@ lst = coinToss()
 ```
 
     Number of times to flip coin: 10
-    Toss 1 : Tails
+    Toss 1 : Heads
     Toss 2 : Tails
-    Toss 3 : Heads
-    Toss 4 : Tails
-    Toss 5 : Tails
-    Toss 6 : Heads
-    Toss 7 : Tails
+    Toss 3 : Tails
+    Toss 4 : Heads
+    Toss 5 : Heads
+    Toss 6 : Tails
+    Toss 7 : Heads
     Toss 8 : Tails
-    Toss 9 : Heads
+    Toss 9 : Tails
     Toss 10 : Heads
-    ['Tails', 'Tails', 'Heads', 'Tails', 'Tails', 'Heads', 'Tails', 'Tails', 'Heads', 'Heads']
-    46
+    ['Heads', 'Tails', 'Tails', 'Heads', 'Heads', 'Tails', 'Heads', 'Tails', 'Tails', 'Heads']
+    55
 
 
 Remember its a random experiment so the output will change everytime you run it. Here is the output sequence we'll use in this lesson: 
@@ -67,7 +93,7 @@ Parameter Inference is all to do with identifying that parameter with its optima
 
 ## Maximum Likelihood Estimation
 
-MLE primarily deals with **determining the parameters** that **maximize the probability of the data**. Such a determination can help us predict the outcome of future experiments e.g. If we Toss the coin 1 more time, what is the probability of seeing a Head? 
+MLE primarily deals with **determining the parameters (of a normal distrubtion)** that **maximize the probability of the data (that we have smapled already)**. Such a determination can help us predict the outcome of future experiments e.g. If we Toss the coin 1 more time, what is the probability of seeing a Head? 
 
 * Its a fair coin so probability is 0.5. 
 
@@ -84,7 +110,7 @@ p_head
 
 
 
-    0.4
+    0.5
 
 
 
@@ -140,6 +166,8 @@ Going back to our coin flip example. If in our understanding, the coin flips do 
 
 Note: $\prod$ signifies the product over a series, shown in the previous equation, just as $\Sigma$ denotes summation over a series.
 
+**theta values having subscripts, in mathematics, implies that they are not the same**
+
 ### MLE Assumptions
 
 So here we see that the **independence assumption** allows us to simplify the complex likelihood term into ten simpler factors that can be shown through a general notation in the last equation. 
@@ -174,6 +202,8 @@ $=\theta^6(1-\theta)^4$
 * 1 - theta = Probability of seeing a tail
 * The sequence:  H,H,T,T,T,H,T,H,H,H
 
+
+How do we maximize things in math? **Derivatives**
 
 We see here the i.i.d. assumptions simplifies  the likelihood function to a simple polynomial; to a point where we can **start optimizing the function for the parameter theta**.
 
@@ -229,12 +259,26 @@ Following the monotonicity principle, our argmax function can be written with na
 
 >$\underset{\theta}{\operatorname{argmax}} ln(\theta^6(1-\theta)^4)$
  
-> $=\underset{\theta}{\operatorname{argmax}} 6 (ln (\theta)) *4 (ln(1-\theta))$
+> $=\underset{\theta}{\operatorname{argmax}} 6 (ln (\theta)) + 4 (ln(1-\theta))$
 
 Let's call our log likelihood function $g(\theta)$, take its derivative and set it to zero. 
 
 
 
+
+$\log{a*b} = \log{a} + log{b}$
+
+$\log{a^n} = n*\log{a}$
+
+$\log{\theta^6(1-\theta)^4}$
+
+$\log{\theta^6} + \log{(1-\theta)}^4$
+
+$6\log{\theta} + 4\log{(1-\theta)}$
+
+$\frac{d}{d\theta}6\log{\theta} = 6*\frac{1}{\theta}$
+
+$\frac{d}{d\theta}4\log{(1-\theta)} = 4*\frac{1}{1-\theta} * (-1)$
 
 > $ \frac{d}{d\theta}[g(\theta)] = |H|\frac{1}{\theta} + |T|\frac{1}{1-\theta}(-1)$
 
