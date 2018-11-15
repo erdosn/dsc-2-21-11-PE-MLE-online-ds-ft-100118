@@ -29,7 +29,7 @@ You will be able to:
     * Step 3b: Set it equal to 0
     * Step 3c: Solve for theta
 
-
+# This is something cool
 
 ## Parameter Inference
 
